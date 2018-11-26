@@ -76,6 +76,14 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         private bool m_IsQuitting = false;
 
+
+        //TEMPLE RUN STUFF
+        bool gameplay = false;// is the app ready for gameplay
+
+        [SerializeField]
+        GameObject[] runningPlanes;
+        float planeSpeed = 2f;
+
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -91,13 +99,45 @@ namespace GoogleARCore.Examples.HelloAR
                 if (m_AllPlanes[i].TrackingState == TrackingState.Tracking)
                 {
                     showSearchingUI = false;
+                    gameplay = true;
                     break;
                 }
             }
 
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
-            
+            // the game loop for Temple Run
+            // make sure that the app is tracking a plane 
+            if(gameplay)
+            {
+                // move the platforms underneath the player to give the illusion of movement
+                MovePlatforms();
+
+                
+            }
+        }
+
+        // generate the obstacles that will be coming at the player. 
+        void GenerateObstacles()
+        {
+
+        }
+
+        // This method generates the platforms underneath the player 
+        void MovePlatforms()
+        {
+            // loop through the planes and move them 
+            foreach (GameObject plane in runningPlanes)
+            {
+                Vector3 planePos = plane.transform.position;
+                planePos += planeSpeed * -Vector3.forward * Time.deltaTime;
+                // check if the plane is past the camera
+                if(planePos.z + 10.5f < FirstPersonCamera.transform.position.z)
+                {
+                    planePos.z = 52.5f;
+                }
+                plane.transform.position = planePos;
+            }
         }
 
         /// <summary>
