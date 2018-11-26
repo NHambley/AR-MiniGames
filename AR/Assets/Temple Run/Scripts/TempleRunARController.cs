@@ -79,9 +79,12 @@ namespace GoogleARCore.Examples.HelloAR
 
         //TEMPLE RUN STUFF
         bool gameplay = false;// is the app ready for gameplay
+        bool gameplayStart = false; // to track the first time the game detects a surface
 
         [SerializeField]
-        GameObject[] runningPlanes;
+        GameObject runningPlane;
+
+        GameObject[] runningPlanes = new GameObject[3];
         float planeSpeed = 2f;
 
         /// <summary>
@@ -110,10 +113,17 @@ namespace GoogleARCore.Examples.HelloAR
             // make sure that the app is tracking a plane 
             if(gameplay)
             {
+                // if this is the first time the app is runing gameplay, instantiate the planes. 
+                if (gameplayStart == false)
+                {
+                    gameplayStart = true;
+                    runningPlanes[0] = Instantiate(runningPlane, new Vector3(0, -4.65f, 10.5f), Quaternion.identity);
+                    runningPlanes[1] = Instantiate(runningPlane, new Vector3(0, -4.65f, 31.5f), Quaternion.identity);
+                    runningPlanes[2] = Instantiate(runningPlane, new Vector3(0, -4.65f, 52.5f), Quaternion.identity);
+                }
+
                 // move the platforms underneath the player to give the illusion of movement
                 MovePlatforms();
-
-                
             }
         }
 
