@@ -8,10 +8,12 @@ public class TempleRunController : MonoBehaviour
     [SerializeField]
     GameObject platform;
     [SerializeField]
-    GameObject[] obstacles;// an array of different types of obstacles that will come at the player
+    GameObject obstacle;// an array of different types of obstacles that will come at the player
+    List<GameObject> spawnedObs;
+
     GameObject[] platforms;
 
-    float platformSpeed = 2.0f;
+    float platformSpeed = 5.0f;
 
 
     bool gameplayStart = false;
@@ -21,7 +23,9 @@ public class TempleRunController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-		// wait for the user to tap the screen then spawn all three platforms and start spawning obstacles
+        // wait for the user to tap the screen then spawn all three platforms and start spawning obstacles
+        platforms = new GameObject[3];
+        spawnedObs = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -44,10 +48,7 @@ public class TempleRunController : MonoBehaviour
             // gameplay loop
             MovePlatforms();
             SpawnObstacles();
-        }
-        else
-        {
-            // do nothing
+            MoveObstacles();
         }
 	}
 
@@ -67,10 +68,22 @@ public class TempleRunController : MonoBehaviour
         spawnTimerTrack -= Time.deltaTime;
         if (spawnTimerTrack <= 0)
         {
+            GameObject temp;
             spawnTimerTrack = obsSpawnTimer;
 
+            temp = Instantiate(obstacle, new Vector3(Random.Range(-2.5f, 2.5f), transform.position.y, transform.position.z), Quaternion.identity);
             // pick a random place on the plane to spawn an obstacle y position and z position at spawn are alwasy the same
-            Instantiate(obstacles[0], new Vector3(Random.Range(-5, 5), transform.position.y, transform.position.z), Quaternion.identity);
+            spawnedObs.Add(temp);
+        }
+    }
+
+    void MoveObstacles()
+    {
+        foreach (GameObject obs in spawnedObs)
+        {
+            Vector3 pos = obs.transform.position;
+            pos += -Vector3.forward * Time.deltaTime * platformSpeed;
+            obs.transform.position = pos;
         }
     }
 }
