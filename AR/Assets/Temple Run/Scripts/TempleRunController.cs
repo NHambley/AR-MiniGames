@@ -1,0 +1,76 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TempleRunController : MonoBehaviour
+{
+    // keep track of the platforms the player "runs" on
+    [SerializeField]
+    GameObject platform;
+    [SerializeField]
+    GameObject[] obstacles;// an array of different types of obstacles that will come at the player
+    GameObject[] platforms;
+
+    float platformSpeed = 2.0f;
+
+
+    bool gameplayStart = false;
+
+    float obsSpawnTimer = 2.0f;
+    float spawnTimerTrack = 2.0f;
+	// Use this for initialization
+	void Start ()
+    {
+		// wait for the user to tap the screen then spawn all three platforms and start spawning obstacles
+	}
+	
+	// Update is called once per frame
+	void Update ()
+    {
+        // if the player touches the screen for the first time set gameplaystart to true
+		if(Input.touchCount > 0 && gameplayStart == false)
+        {
+            gameplayStart = true;
+
+            // spawn the platforms
+            platforms[0] = Instantiate(platform, new Vector3(0, -1, 10.5f), Quaternion.identity);
+            platforms[1] = Instantiate(platform, new Vector3(0, -1, 31.5f), Quaternion.identity);
+            platforms[2] = Instantiate(platform, new Vector3(0, -1, 52.5f), Quaternion.identity);
+        }
+
+        // check if the gameplay loop can start
+        if(gameplayStart)
+        {
+            // gameplay loop
+            MovePlatforms();
+            SpawnObstacles();
+        }
+        else
+        {
+            // do nothing
+        }
+	}
+
+    void MovePlatforms()
+    {
+        foreach (GameObject plat in platforms)
+        {
+            Vector3 pos = plat.transform.position;
+            pos += -Vector3.forward * Time.deltaTime * platformSpeed;
+            plat.transform.position = pos;
+        }
+    }
+
+    void SpawnObstacles()
+    {
+        // use the transform
+        spawnTimerTrack -= Time.deltaTime;
+        if (spawnTimerTrack <= 0)
+        {
+            spawnTimerTrack = obsSpawnTimer;
+
+            // pick a random place on the plane to spawn an obstacle y position and z position at spawn are alwasy the same
+            Instantiate(obstacles[0], new Vector3(Random.Range(-5, 5), transform.position.y, transform.position.z), Quaternion.identity);
+        }
+    }
+}
