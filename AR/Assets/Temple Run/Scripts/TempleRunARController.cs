@@ -87,6 +87,8 @@ namespace GoogleARCore.Examples.HelloAR
         GameObject[] runningPlanes = new GameObject[3];
         float planeSpeed = 2f;
 
+        Anchor anchor;
+        Pose pose; 
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -122,6 +124,10 @@ namespace GoogleARCore.Examples.HelloAR
                     runningPlanes[2] = Instantiate(runningPlane, new Vector3(0, -4.65f, 52.5f), Quaternion.identity);
                 }
 
+                
+                //anchor = Session.CreateAnchor(, transform.rotation);
+
+                
                 // move the platforms underneath the player to give the illusion of movement
                 MovePlatforms();
             }
