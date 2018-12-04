@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cc26d0f1833cab54492cb72812d74be9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - lane: {instanceID: 0}
+  - pin: {instanceID: 0}
+  - bowlingBall: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
