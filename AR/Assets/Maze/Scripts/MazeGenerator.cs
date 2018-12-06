@@ -16,6 +16,7 @@ public class MazeGenerator : MonoBehaviour {
     const int NUM_NEW_PATHS = 20;
 
     public GameObject mazeBlockPrefab;
+    public GameObject mazeTriggerPrefab;
     public Transform mazeParent;
     public GameObject endBlockObject;
 
@@ -231,12 +232,17 @@ public class MazeGenerator : MonoBehaviour {
         {
             for (int j = 0; j < MAZE_SIZE+4; j++)
             {
+                Vector3 pos = new Vector3((i * MAZE_BLOCK_SIZE) - startOffset.x, 0, (j * MAZE_BLOCK_SIZE) - startOffset.y);
+                GameObject block = null;
                 if (maze[i, j] == 0)
                 {
-                    Vector3 pos = new Vector3((i * MAZE_BLOCK_SIZE) - startOffset.x, 0, (j * MAZE_BLOCK_SIZE) - startOffset.y);
-                    GameObject block = Instantiate(mazeBlockPrefab, mazeParent);
-                    block.transform.position = pos;
+                    block = Instantiate(mazeBlockPrefab, mazeParent);
                 }
+                else if (maze[i, j] == 1)
+                {
+                    block = Instantiate(mazeTriggerPrefab, mazeParent);
+                }
+                block.transform.position = pos;
             }
         }
 

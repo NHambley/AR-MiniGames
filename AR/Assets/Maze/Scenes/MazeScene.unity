@@ -229,6 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mazeBlockPrefab: {fileID: 1534609105821780, guid: 03269c497a4ff6d4aafcf073a5c98b33,
     type: 2}
+  mazeTriggerPrefab: {fileID: 1534609105821780, guid: 68b3937a888711342bbdfadea94a2089,
+    type: 2}
   mazeParent: {fileID: 1423649785}
   endBlockObject: {fileID: 1834654548091292, guid: 974f9314c59782a41ba4b8bb1eda57f1,
     type: 2}
@@ -689,6 +691,7 @@ MonoBehaviour:
   scoreText: {fileID: 470010849}
   mazeGen: {fileID: 152797274}
   mazeObj: {fileID: 1423649784}
+  lastPosition: {fileID: 0}
 --- !u!20 &1577755069 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 20699933057125336, guid: 34db1bab2f1bf1f41a9ad73896f2815f,
@@ -699,6 +702,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4235124130453844, guid: 34db1bab2f1bf1f41a9ad73896f2815f,
     type: 2}
   m_PrefabInternal: {fileID: 2128541025}
+--- !u!54 &1577755072
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1577755063}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &2128541025
 Prefab:
   m_ObjectHideFlags: 0
@@ -750,6 +768,25 @@ Prefab:
     - target: {fileID: 1462838277888660, guid: 34db1bab2f1bf1f41a9ad73896f2815f, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462838277888660, guid: 34db1bab2f1bf1f41a9ad73896f2815f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65492182349029600, guid: 34db1bab2f1bf1f41a9ad73896f2815f,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 65492182349029600, guid: 34db1bab2f1bf1f41a9ad73896f2815f,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 65492182349029600, guid: 34db1bab2f1bf1f41a9ad73896f2815f,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114883787841113486, guid: 34db1bab2f1bf1f41a9ad73896f2815f, type: 2}
