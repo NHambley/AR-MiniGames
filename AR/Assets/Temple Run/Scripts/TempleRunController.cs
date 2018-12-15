@@ -21,7 +21,7 @@ public class TempleRunController : MonoBehaviour
 
     GameObject[] platforms;
 
-    float platformSpeed = 4.0f;
+    float platformSpeed = 3.5f;
 
 
     bool gameplayStart = false;
@@ -48,7 +48,7 @@ public class TempleRunController : MonoBehaviour
 	void Update ()
     {
         // if the player touches the screen for the first time set gameplaystart to true
-		if(Input.touchCount > 0 /*Input.GetMouseButtonDown(0)*/ && gameplayStart == false)
+		if(/*Input.touchCount > 0*/ Input.GetMouseButtonDown(0) && gameplayStart == false)
         {
             song.Play();
             gameplayStart = true;
