@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour {
     public Text scoreText;
 
     private int score;
-    private int health;
 
     public MazeGenerator mazeGen;
     public GameObject mazeObj;
@@ -19,7 +18,6 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         score = 0;
-        health = 0;
 
         mazeGen.GenerateMaze();
 	}
@@ -65,17 +63,14 @@ public class GameManager : MonoBehaviour {
             lastPosition = col.gameObject.transform;
             Debug.Log("UPDATED LAST TO: " + lastPosition);
         }
+        else if (col.gameObject.tag == "Wall")
+        {
+            Debug.Log("HIT WALL");
+            BackToLastPosition();
+        }
         else if (col.gameObject.tag == "end")
         {
             AddScore();
-        }
-    }
-
-    private void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.tag == "Wall")
-        {
-            Debug.Log("hit a wall");
         }
     }
 
@@ -92,15 +87,23 @@ public class GameManager : MonoBehaviour {
         mazeGen.GenerateMaze();
     }
 
-    public void TakeDamage()
+    private void BackToLastPosition()
     {
-        health--;
+        Vector3 movePos = lastPosition.position;
 
-        healthText.text = "Health: " + health;
+        Vector3 mazePos = mazeObj.transform.position;
 
-        if (health <= 0)
+        movePos = this.gameObject.transform.position - movePos;
+        movePos.y = 0;
+        mazePos += movePos;
+        
+        if (mazePos.y != 0)
         {
-            //die or something
+            mazePos.y = 0;
         }
+
+        mazeObj.transform.position = mazePos;
+
+
     }
 }

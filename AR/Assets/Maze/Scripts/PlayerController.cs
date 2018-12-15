@@ -23,10 +23,6 @@ public class PlayerController : MonoBehaviour {
 		if (Input.touchCount > 0 && !tracking)
         {
             tracking = true;
-            /*
-            trackPos = this.transform.position;
-            trackRot = this.transform.rotation;
-            */
             text.text = "FREEZE";
             mazeObj.transform.parent = this.gameObject.transform;
         }
