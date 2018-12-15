@@ -11,33 +11,46 @@ public class TempleRunController : MonoBehaviour
     // keep track of the platforms the player "runs" on
     [SerializeField]
     GameObject platform;
-    [SerializeField]
-    GameObject obstacle;// an array of different types of obstacles that will come at the player
-    List<GameObject> spawnedObs;
+
+
+    public List<GameObject> spawnedObs;
+
+    public GameObject audioTrack;
+    AudioSource song;
+    AudioPeer ap;
 
     GameObject[] platforms;
 
-    float platformSpeed = 5.0f;
+    float platformSpeed = 4.0f;
 
 
     bool gameplayStart = false;
 
-    float obsSpawnTimer = 2.0f;
-    float spawnTimerTrack = 2.0f;
+    public float lowTot;
+    public float lowMTot;
+    public float highMTot;
+    public float highTot;
+
+    ObstacleGenerator gen;
 	// Use this for initialization
 	void Start ()
     {
         // wait for the user to tap the screen then spawn all three platforms and start spawning obstacles
         platforms = new GameObject[3];
         spawnedObs = new List<GameObject>();
+        ap = audioTrack.GetComponent<AudioPeer>();
+        gen = GetComponent<ObstacleGenerator>();
+        song = audioTrack.GetComponent<AudioSource>();
+        song.Pause();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
         // if the player touches the screen for the first time set gameplaystart to true
-		if(Input.touchCount > 0 && gameplayStart == false)
+		if(Input.touchCount > 0 /*Input.GetMouseButtonDown(0)*/ && gameplayStart == false)
         {
+            song.Play();
             gameplayStart = true;
 
             // spawn the platforms
@@ -51,10 +64,10 @@ public class TempleRunController : MonoBehaviour
         {
             // gameplay loop
             MovePlatforms();
-            SpawnObstacles();
             MoveObstacles();
+            gen.GenerateObstacles();
         }
-	}
+    }
 
     void MovePlatforms()
     {
@@ -70,21 +83,8 @@ public class TempleRunController : MonoBehaviour
         }
     }
 
-    void SpawnObstacles()
-    {
-        // use the transform
-        spawnTimerTrack -= Time.deltaTime;
-        if (spawnTimerTrack <= 0)
-        {
-            GameObject temp;
-            spawnTimerTrack = obsSpawnTimer;
 
-            temp = Instantiate(obstacle, new Vector3(Random.Range(-2.5f, 2.5f), transform.position.y, transform.position.z), Quaternion.identity);
-            // pick a random place on the plane to spawn an obstacle y position and z position at spawn are alwasy the same
-            spawnedObs.Add(temp);
-        }
-    }
-
+    // move the obstacles at the player and also delete them
     void MoveObstacles()
     {
         foreach (GameObject obs in spawnedObs)
@@ -92,6 +92,8 @@ public class TempleRunController : MonoBehaviour
             Vector3 pos = obs.transform.position;
             pos += -Vector3.forward * Time.deltaTime * platformSpeed;
             obs.transform.position = pos;
+
+            
         }
     }
 }
