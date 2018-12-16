@@ -14,11 +14,12 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Hit");
         health -= 1;
 
         if(health == 0)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }
