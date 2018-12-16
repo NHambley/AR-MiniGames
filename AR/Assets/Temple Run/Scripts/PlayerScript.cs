@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -14,12 +15,16 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit");
-        health -= 1;
-
-        if(health == 0)
+        if(other.gameObject.tag=="obstacle")
         {
-            Destroy(gameObject);
+            Debug.Log("Hit");
+            health -= 1;
+
+            if (health == 0)
+            {
+                Destroy(gameObject);
+                SceneManager.LoadScene("Menu");
+            }
         }
     }
 }
