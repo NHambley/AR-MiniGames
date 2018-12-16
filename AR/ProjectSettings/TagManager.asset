@@ -8,6 +8,7 @@ TagManager:
   - positionTrigger
   - end
   - Audio Listener
+  - obstacle
   layers:
   - Default
   - TransparentFX

@@ -5,16 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/GoogleARCore/Examples/HelloAR/Scenes/HelloAR.unity
-    guid: e6a6fa04348cb45c9b0221eb19c946da
-  - enabled: 0
-    path: Assets/GoogleARCore/Examples/AugmentedImage/Scenes/AugmentedImage.unity
-    guid: be567d47d3ab94b3badc5b211f535a24
+  - enabled: 1
+    path: Assets/Menu/Menu.unity
+    guid: 72ec918c784d6cc4aa95a03fc377de06
+  - enabled: 1
+    path: Assets/Temple Run/TempleRun-Test.unity
+    guid: 6c496a1dfe815224c80796290fa603d5
   - enabled: 1
     path: Assets/Maze/Scenes/MazeScene.unity
     guid: 22c690aa23f90ed47a99ab99b36e540a
+  - enabled: 1
+    path: Assets/Bowling/Bowling.unity
+    guid: f9e4bb080b5968d49910c4ea228205b2
   m_configObjects: {}
