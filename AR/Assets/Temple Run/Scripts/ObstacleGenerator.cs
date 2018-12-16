@@ -15,7 +15,7 @@ public class ObstacleGenerator : MonoBehaviour
     float timer3 = 0;
     float timer4 = 0;
 
-    float timerTrack = 2f;
+    float timerTrack = 2.5f;
     [SerializeField]
     GameObject obstacle;// an array of different types of obstacles that will come at the player
     // Use this for initialization
