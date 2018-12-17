@@ -26,9 +26,12 @@ public class BowlingController : MonoBehaviour {
 
     int currentFrame;
     int attempt;
-    int currentScore;
 
     bool reset;
+
+    int[][] score;
+
+    bool gameOver;
 
 	// Use this for initialization
 	void Start () {
@@ -40,93 +43,134 @@ public class BowlingController : MonoBehaviour {
         reset = false;
 
         pinVecs = new List<Vector3>();
+
+        score = new int[10][];
+        for (int i = 0; i < 10; i++)
+        {
+            score[i] = new int[3];
+        }
+
+        gameOver = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameStart)
+        if (!gameOver)
         {
-            bowlingBall = Instantiate(bowlingBall, new Vector3(0.0f, 0.5f, 1.0f), Quaternion.identity);
-            roll = false;
-            xVel = 0;
-            zVel = 0;
-
-            SetPinVecs();
-            SpawnPins();
-            
-            gameStart = false;
-            currentFrame = 1;
-            attempt = 1;
-            startRoll = true;
-        }
-
-        if (currentFrame != 0 && currentFrame <= 10 && attempt != 0)
-        {
-            if (Input.GetMouseButton(0) && startRoll)
+            if (gameStart)
             {
-                bowlingBall.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                ballPos = Input.mousePosition;
-                ballPos.z = 1.0f;
-                //Debug.Log(cam.ScreenToWorldPoint(ballPos));
-                bowlingBall.transform.position = cam.ScreenToWorldPoint(ballPos);
-                posEnd = cam.ScreenToWorldPoint(ballPos);
-                if (posStart == Vector3.zero)
-                {
-                    posStart = cam.ScreenToWorldPoint(ballPos);
-                }
-                else if (posStart.y < posEnd.y)
-                {
-                    //Debug.Log(posStart.y);
-                    //Debug.Log(posEnd.y);
-                    roll = true;
-                }
-            }
-            else if (Input.GetMouseButtonUp(0) && roll)
-            {
-                zVel = posEnd.y - posStart.y;
-                zVel = zVel * 5.0f;
-                //Debug.Log(zVel);
-
-                xVel = posEnd.x - posStart.x;
-                xVel = xVel * 2.0f;
-                //Debug.Log(xVel);
+                bowlingBall = Instantiate(bowlingBall, new Vector3(0.0f, 0.5f, 1.0f), Quaternion.identity);
                 roll = false;
-                startRoll = false;
+                xVel = 0;
+                zVel = 0;
+
+                SetPinVecs();
+                SpawnPins();
+
+                gameStart = false;
+                currentFrame = 1;
+                attempt = 1;
+                startRoll = true;
             }
 
-            HoldVelocity();
-
-            //Debug.Log("Velocity: " + bowlingBall.GetComponent<Rigidbody>().velocity);
-        }
-
-        if(bowlingBall.transform.position.y < -12.0f)
-        {
-            attempt++;
-            CheckScore();
-            bowlingBall.transform.position = new Vector3(0.0f, 0.5f, 1.0f);
-            xVel = 0;
-            zVel = 0;
-            startRoll = true;
-            if(attempt > 2 || currentScore == 10)
+            if (currentFrame != 0 && currentFrame <= 10 && attempt != 0)
             {
-                reset = true;
-                currentScore = 0;
-            }
-        }
+                if (Input.GetMouseButton(0) && startRoll)
+                {
+                    bowlingBall.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                    ballPos = Input.mousePosition;
+                    ballPos.z = 1.0f;
+                    //Debug.Log(cam.ScreenToWorldPoint(ballPos));
+                    bowlingBall.transform.position = cam.ScreenToWorldPoint(ballPos);
+                    posEnd = cam.ScreenToWorldPoint(ballPos);
+                    if (posStart == Vector3.zero)
+                    {
+                        posStart = cam.ScreenToWorldPoint(ballPos);
+                    }
+                    else if (posStart.y < posEnd.y)
+                    {
+                        //Debug.Log(posStart.y);
+                        //Debug.Log(posEnd.y);
+                        roll = true;
+                    }
+                }
+                else if (Input.GetMouseButtonUp(0) && roll)
+                {
+                    zVel = posEnd.y - posStart.y;
+                    zVel = zVel * 5.0f;
+                    //Debug.Log(zVel);
 
-        if (reset)
-        {
-            foreach(GameObject p in pins)
+                    xVel = posEnd.x - posStart.x;
+                    xVel = xVel * 2.0f;
+                    //Debug.Log(xVel);
+                    roll = false;
+                    startRoll = false;
+                }
+
+                HoldVelocity();
+
+                //Debug.Log("Velocity: " + bowlingBall.GetComponent<Rigidbody>().velocity);
+            }
+            else
             {
-                Destroy(p);
+                Debug.Log("GAME OVER");
+                gameOver = true;
             }
 
-            SetPinVecs();
-            SpawnPins();
+            if (bowlingBall.transform.position.y < -12.0f && attempt != -1)
+            {
+                bowlingBall.transform.position = new Vector3(0.0f, 0.5f, 1.0f);
+                xVel = 0;
+                zVel = 0;
+                startRoll = true;
 
-            currentFrame++;
-            attempt = 1;
-            reset = false;
+                int currentScore = 0;
+                currentScore = CheckScore();
+
+                if (attempt == 1 && currentScore == 10)
+                {
+                    score[currentFrame - 1][attempt - 1] = currentScore;
+                    reset = true;
+                }
+                else if (attempt == 1 && currentScore != 10)
+                {
+                    score[currentFrame - 1][attempt - 1] = currentScore;
+                }
+                else if (attempt == 2)
+                {
+                    score[currentFrame - 1][attempt - 1] = currentScore;
+                    reset = true;
+                }
+
+                attempt++;
+            }
+
+            if (reset)
+            {
+                foreach (GameObject p in pins)
+                {
+                    Destroy(p);
+                }
+
+                SetPinVecs();
+                SpawnPins();
+
+                Debug.Log("Frame: " + currentFrame + " Score: " + score[currentFrame - 1][0] + " " + score[currentFrame - 1][1]);
+
+                currentFrame++;
+                attempt = 1;
+                reset = false;
+            }
+
+            if (gameOver)
+            {
+                foreach (GameObject p in pins)
+                {
+                    Destroy(p);
+                }
+
+                Destroy(bowlingBall);
+            }
         }
     }
 
@@ -168,9 +212,9 @@ public class BowlingController : MonoBehaviour {
         }
     }
 
-    void CheckScore()
+    int CheckScore()
     {
-        currentScore = 0;
+        int currentScore = 0;
         foreach(GameObject p in pins)
         {
             if(p.transform.position.y < .3f)
@@ -178,7 +222,8 @@ public class BowlingController : MonoBehaviour {
                 currentScore++;
             }
         }
-        Debug.Log("Score: " + currentScore);
+        //Debug.Log("Score: " + currentScore);
+        return currentScore;
     }
 
 
