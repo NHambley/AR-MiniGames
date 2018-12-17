@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BowlingController : MonoBehaviour {
 
@@ -33,8 +34,11 @@ public class BowlingController : MonoBehaviour {
 
     bool gameOver;
 
-	// Use this for initialization
-	void Start () {
+    //Text component to display on gameover
+    GameObject goText;
+
+    // Use this for initialization
+    void Start () {
         gameStart = true;
 
         currentFrame = 0;
@@ -51,6 +55,11 @@ public class BowlingController : MonoBehaviour {
         }
 
         gameOver = false;
+
+
+        //Setting up Text
+        goText = GameObject.Find("Text");
+        goText.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -97,11 +106,11 @@ public class BowlingController : MonoBehaviour {
                 else if (Input.GetMouseButtonUp(0) && roll)
                 {
                     zVel = posEnd.y - posStart.y;
-                    zVel = zVel * 5.0f;
+                    zVel = zVel * 9.0f;
                     //Debug.Log(zVel);
 
                     xVel = posEnd.x - posStart.x;
-                    xVel = xVel * 2.0f;
+                    xVel = xVel * 5.0f;
                     //Debug.Log(xVel);
                     roll = false;
                     startRoll = false;
@@ -113,11 +122,12 @@ public class BowlingController : MonoBehaviour {
             }
             else
             {
-                Debug.Log("GAME OVER");
+                //Debug.Log("GAME OVER");
                 gameOver = true;
+                goText.SetActive(true);
             }
 
-            if (bowlingBall.transform.position.y < -12.0f && attempt != -1)
+            if (bowlingBall.transform.position.y < -2.0f && attempt != -1)
             {
                 bowlingBall.transform.position = new Vector3(0.0f, 0.5f, 1.0f);
                 xVel = 0;
