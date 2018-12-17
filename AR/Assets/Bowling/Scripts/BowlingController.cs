@@ -37,6 +37,8 @@ public class BowlingController : MonoBehaviour {
     //Text component to display on gameover
     GameObject goText;
 
+    GameObject frameText;
+
     // Use this for initialization
     void Start () {
         gameStart = true;
@@ -60,6 +62,8 @@ public class BowlingController : MonoBehaviour {
         //Setting up Text
         goText = GameObject.Find("Text");
         goText.SetActive(false);
+
+        frameText = GameObject.Find("FrameText");
     }
 	
 	// Update is called once per frame
@@ -165,7 +169,19 @@ public class BowlingController : MonoBehaviour {
                 SetPinVecs();
                 SpawnPins();
 
-                Debug.Log("Frame: " + currentFrame + " Score: " + score[currentFrame - 1][0] + " " + score[currentFrame - 1][1]);
+                //Debug.Log("Frame: " + currentFrame + " Score: " + score[currentFrame - 1][0] + " " + score[currentFrame - 1][1]);
+
+                string scoreStr = "";
+                for(int i  = 0; i < currentFrame; i++)
+                {
+                    if(i > 0)
+                    {
+                        scoreStr += "\n";
+                    }
+                    scoreStr += "Frame " + (i + 1) + ": " + score[i][0] + " " + score[i][1];
+                }
+
+                frameText.GetComponent<Text>().text = scoreStr;//"Frame " + currentFrame + "\nScore: " + score[currentFrame - 1][0] + " " + score[currentFrame - 1][1];
 
                 currentFrame++;
                 attempt = 1;
