@@ -44,17 +44,22 @@ public class ObstacleGenerator : MonoBehaviour
 
             if (useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.bandBuffer[0] * scaleMultiplier) + startScale,
-                                                        (audioMgr.bandBuffer[1] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.bandBuffer[0] + audioMgr.bandBuffer[1]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(temp, new Vector3(transform.position.x + 1.5f, transform.position.y + 1f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1.5f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[0] * scaleMultiplier) + startScale, 
+                    (audioMgr.freqBand[1] * scaleMultiplier) + startScale, 
+                    ((audioMgr.freqBand[0] + audioMgr.freqBand[1]) * scaleMultiplier) + startScale);
             }
             if (!useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.freqBand[0] * scaleMultiplier) + startScale,
-                                                        (audioMgr.freqBand[1] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.freqBand[0] + audioMgr.freqBand[1]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(temp, new Vector3(transform.position.x + 1.5f, transform.position.y + 1f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1.5f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[0] * scaleMultiplier) + startScale, 
+                    (audioMgr.freqBand[1] * scaleMultiplier) + startScale, 
+                    ((audioMgr.freqBand[0] + audioMgr.freqBand[1]) * scaleMultiplier) + startScale);
+          
             }
         }
         if (audioMgr.freqBand[2] + audioMgr.freqBand[3] >= 0.5f && timer2 <= 0)// bottom left
