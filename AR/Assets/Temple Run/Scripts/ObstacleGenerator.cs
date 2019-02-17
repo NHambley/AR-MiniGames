@@ -45,11 +45,11 @@ public class ObstacleGenerator : MonoBehaviour
             if (useBuffer)
             {
                 // spawn in an object and pass through audio frequency to generate a new mesh
-                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1.5f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
                 controller.spawnedObs.Add(obj);
-                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[0] * scaleMultiplier) + startScale, 
-                    (audioMgr.freqBand[1] * scaleMultiplier) + startScale, 
-                    ((audioMgr.freqBand[0] + audioMgr.freqBand[1]) * scaleMultiplier) + startScale);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.bandBuffer[0] * scaleMultiplier) + startScale, 
+                    (audioMgr.bandBuffer[1] * scaleMultiplier) + startScale, 
+                    ((audioMgr.bandBuffer[0] + audioMgr.bandBuffer[1]) * scaleMultiplier) + startScale);
             }
             if (!useBuffer)
             {
@@ -69,17 +69,21 @@ public class ObstacleGenerator : MonoBehaviour
 
             if (useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.bandBuffer[2] * scaleMultiplier) + startScale,
-                                                        (audioMgr.bandBuffer[3] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.bandBuffer[1] + audioMgr.bandBuffer[3]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x - 1f, transform.position.y + 1f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x - 1f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.bandBuffer[2] * scaleMultiplier) + startScale,
+                    (audioMgr.bandBuffer[3] * scaleMultiplier) + startScale,
+                    ((audioMgr.bandBuffer[2] + audioMgr.bandBuffer[3]) * scaleMultiplier) + startScale);
             }
             if (!useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.freqBand[2] * scaleMultiplier) + startScale,
-                                                        (audioMgr.freqBand[3] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.freqBand[2] + audioMgr.freqBand[3]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x - 1f, transform.position.y + 1f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x - 1f, transform.position.y + 1f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[2] * scaleMultiplier) + startScale,
+                    (audioMgr.freqBand[3] * scaleMultiplier) + startScale,
+                    ((audioMgr.freqBand[2] + audioMgr.freqBand[3]) * scaleMultiplier) + startScale);
             }
         }
         if (audioMgr.freqBand[4] + audioMgr.freqBand[5] >= 0.6f && timer3 <= 0)// top right
@@ -89,17 +93,21 @@ public class ObstacleGenerator : MonoBehaviour
 
             if (useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.bandBuffer[4] * scaleMultiplier) + startScale,
-                                                        (audioMgr.bandBuffer[5] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.bandBuffer[4] + audioMgr.bandBuffer[5]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x + 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.bandBuffer[4] * scaleMultiplier) + startScale,
+                    (audioMgr.bandBuffer[5] * scaleMultiplier) + startScale,
+                    ((audioMgr.bandBuffer[4] + audioMgr.bandBuffer[5]) * scaleMultiplier) + startScale);
             }
             if (!useBuffer)
             {
-                temp.transform.localScale = new Vector3((audioMgr.freqBand[4] * scaleMultiplier) + startScale,
-                                                        (audioMgr.freqBand[5] * scaleMultiplier) + startScale,
-                                                        ((audioMgr.freqBand[4] + audioMgr.freqBand[5]) * scaleMultiplier) + startScale);
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x + 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x + 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[4] * scaleMultiplier) + startScale,
+                    (audioMgr.freqBand[5] * scaleMultiplier) + startScale,
+                    ((audioMgr.freqBand[4] + audioMgr.freqBand[5]) * scaleMultiplier) + startScale);
             }
         }
         if (audioMgr.freqBand[6] + audioMgr.freqBand[7] >= 0.5f && timer4 <= 0)// top left
@@ -109,11 +117,21 @@ public class ObstacleGenerator : MonoBehaviour
 
             if (useBuffer)
             {
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x - 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x - 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.bandBuffer[6] * scaleMultiplier) + startScale,
+                    (audioMgr.bandBuffer[7] * scaleMultiplier) + startScale,
+                    ((audioMgr.bandBuffer[6] + audioMgr.bandBuffer[7]) * scaleMultiplier) + startScale);
             }
             if (!useBuffer)
             {
-                controller.spawnedObs.Add(Instantiate(obstacle, new Vector3(transform.position.x - 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity));
+                // spawn in an object and pass through audio frequency to generate a new mesh
+                GameObject obj = Instantiate(temp, new Vector3(transform.position.x - 1f, transform.position.y + 2.5f, transform.position.z), Quaternion.identity);
+                controller.spawnedObs.Add(obj);
+                obj.GetComponent<GenerateMesh>().CreateShape((audioMgr.freqBand[6] * scaleMultiplier) + startScale,
+                    (audioMgr.freqBand[7] * scaleMultiplier) + startScale,
+                    ((audioMgr.freqBand[6] + audioMgr.freqBand[7]) * scaleMultiplier) + startScale);
             }
         }
     }
